@@ -4,7 +4,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
-UI_DIR += ui_headers/
 
 INCLUDEPATH += headers/ ui_headers/
 
@@ -15,7 +14,7 @@ INCLUDEPATH += headers/ ui_headers/
 
 SOURCES += \
     src/main.cpp \
-    src/MainScreen/mainwindow.cpp \
+    src/main_window/mainwindow.cpp \
 
 HEADERS += \
     headers/mainwindow.h \
