@@ -1,0 +1,30 @@
+<RCC>
+    <qresource prefix="/res">
+        <file>res/free-icon-bold-text-88393.png</file>
+        <file>res/free-icon-justify-text-4273550.png</file>
+        <file>res/free-icon-justify-text-4273563.png</file>
+        <file>res/free-icon-strikethrough-1828076.png</file>
+        <file>res/free-icon-underline-1828092.png</file>
+        <file>res/free-icon-italic-1827997.png</file>
+        <file>res/free-icon-center-alignment-4273511.png</file>
+        <file>res/free-icon-center-alignment-4273539.png</file>
+        <file>res/free-icon-left-alignment-4273517.png</file>
+        <file>res/free-icon-right-alignment-4273529.png</file>
+        <file>res/down-arrow.png</file>
+        <file>res/free-icon-down-arrow-2985150.png</file>
+        <file>res/free-icon-bold-text-88393w.png</file>
+        <file>res/down-arroww.png</file>
+        <file>res/free-icon-center-alignment-4273511w.png</file>
+        <file>res/free-icon-center-alignment-4273539w.png</file>
+        <file>res/free-icon-down-arrow-2985150w.png</file>
+        <file>res/free-icon-italic-1827997w.png</file>
+        <file>res/free-icon-justify-text-4273550w.png</file>
+        <file>res/free-icon-justify-text-4273563w.png</file>
+        <file>res/free-icon-left-alignment-4273517w.png</file>
+        <file>res/free-icon-right-alignment-4273529w.png</file>
+        <file>res/free-icon-strikethrough-1828076w.png</file>
+        <file>res/free-icon-underline-1828092w.png</file>
+        <file>res/free-icon-x-button-458595.png</file>
+        <file>res/brush.png</file>
+    </qresource>
+</RCC>

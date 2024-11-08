@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+#include "text_editor.h"
 #include "QFileDialog"
 
 QT_BEGIN_NAMESPACE
@@ -19,8 +20,14 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+
+    void on_ButtonOpen_clicked();
+
+    void on_ButtonCreate_clicked();
 
 private:
     Ui::MainWindow *ui;
+    text_editor *text;
 };
 #endif // MAINWINDOW_H
