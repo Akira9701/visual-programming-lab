@@ -15,12 +15,15 @@ INCLUDEPATH += headers/ ui_headers/
 SOURCES += \
     src/main.cpp \
     src/main_window/mainwindow.cpp \
+    src/text_editor/text_editor.cpp \
 
 HEADERS += \
     headers/mainwindow.h \
+    headers/text_editor.h \
 
 FORMS += \
     forms/mainwindow.ui \
+    forms/text_editor.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
