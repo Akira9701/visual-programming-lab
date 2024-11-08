@@ -22,7 +22,22 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">.QMainWindow{background-color: black}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="cursor">
+    <cursorShape>PointingHandCursor</cursorShape>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">.QWidget {background-color: #333333}</string>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
     <item>
      <spacer name="verticalSpacer">
@@ -49,6 +64,12 @@
         <weight>75</weight>
         <bold>true</bold>
        </font>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::ActionsContextMenu</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">.QLabel {color: white}</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -130,14 +151,17 @@
             <bold>true</bold>
            </font>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">.QPushButton {
-    border-radius: 10px;
-    background-color: white; /* Белый фон */
-    border-style: solid;
+    border-radius: 5px;
+    background-color: #1f1f1f; /* Белый фон */
+; color: white;    border-style: solid;
     border-color: black;
     border-width: 1px; /* Уменьшенная ширина границы */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Тень */
@@ -173,14 +197,17 @@
             <stylestrategy>PreferDefault</stylestrategy>
            </font>
           </property>
+          <property name="cursor">
+           <cursorShape>PointingHandCursor</cursorShape>
+          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
           <property name="styleSheet">
            <string notr="true">.QPushButton {
-    border-radius: 10px;
-    background-color: white; /* Белый фон */
-    border-style: solid;
+    border-radius: 5px;
+    background-color: #1f1f1f; /* Белый фон */
+; color: white;    border-style: solid;
     border-color: black;
     border-width: 1px; /* Уменьшенная ширина границы */
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Тень */
