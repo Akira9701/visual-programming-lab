@@ -15,11 +15,15 @@ INCLUDEPATH += headers/ ui_headers/
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/graphics_editor/antonov.cpp \
+    src/graphics_editor/belousov.cpp \
     src/graphics_editor/circle.cpp \
     src/graphics_editor/compositeobject.cpp \
     src/graphics_editor/drawingview.cpp \
+    src/graphics_editor/flower.cpp \
     src/graphics_editor/graphics_editor.cpp \
     src/graphics_editor/line.cpp \
+    src/graphics_editor/mouse.cpp \
     src/graphics_editor/movableshape.cpp \
     src/graphics_editor/movabletextitem.cpp \
     src/graphics_editor/polygon.cpp \
@@ -30,12 +34,16 @@ SOURCES += \
     src/text_editor/text_editor.cpp \
 
 HEADERS += \
+    headers/antonov.h \
+    headers/belousov.h \
     headers/circle.h \
     headers/compositeobject.h \
     headers/drawingview.h \
+    headers/flower.h \
     headers/graphics_editor.h \
     headers/line.h \
     headers/mainwindow.h \
+    headers/mouse.h \
     headers/movableshape.h \
     headers/movabletextitem.h \
     headers/polygon.h \
