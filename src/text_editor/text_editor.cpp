@@ -4,7 +4,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QMessageBox>
-
+#include <graphics_editor.h>
 text_editor::text_editor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::text_editor),
@@ -473,4 +473,11 @@ void text_editor::on_paintButton_clicked()
         format.setForeground(color);
         ui->textEdit->textCursor().mergeCharFormat(format);
     }
+}
+
+void text_editor::on_actionNew_triggered()
+{
+    GraphicsEditorWindow *graphicEditorWindow = new GraphicsEditorWindow(this);
+    this->close();
+    graphicEditorWindow->show();
 }

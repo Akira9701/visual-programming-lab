@@ -83,6 +83,8 @@ private slots:
 
     void onTextChanged();
 
+    void on_actionNew_triggered();
+
 private:
     Ui::text_editor *ui;
     QString tempPath;

@@ -921,7 +921,7 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
      <x>0</x>
      <y>0</y>
      <width>1600</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -961,9 +961,16 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
     <addaction name="HelpAbout"/>
     <addaction name="HelpAboutQt"/>
    </widget>
+   <widget class="QMenu" name="menuGraphicsEditor">
+    <property name="title">
+     <string>GraphicsEditor</string>
+    </property>
+    <addaction name="actionNew"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuGraphicsEditor"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
@@ -1096,6 +1103,11 @@ QSpinBox::up-button:hover, QSpinBox::down-button:hover {
   <action name="RemoveColumn">
    <property name="text">
     <string>Remove Column</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>
