@@ -135,6 +135,11 @@ GraphicsEditorWindow::GraphicsEditorWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, [antonov, view]() { antonov->move(view); });
     antonov->setPos(10, 10);
 
+    Belousov *belousov = new Belousov();
+    scene->addItem(belousov);
+    connect(timer, &QTimer::timeout, [belousov, view]() { belousov->move(view); });
+    belousov->setPos(10, 700);
+
 }
 
 GraphicsEditorWindow::~GraphicsEditorWindow() {
