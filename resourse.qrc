@@ -38,5 +38,9 @@
         <file>res/Save.png</file>
         <file>res/Triangle.png</file>
         <file>res/Polygon.png</file>
+        <file>res/Eraser.png</file>
+    </qresource>
+    <qresource prefix="/music">
+        <file>Sound.wav</file>
     </qresource>
 </RCC>
