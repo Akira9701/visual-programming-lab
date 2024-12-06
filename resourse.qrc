@@ -26,5 +26,21 @@
         <file>res/free-icon-underline-1828092w.png</file>
         <file>res/free-icon-x-button-458595.png</file>
         <file>res/brush.png</file>
+        <file>res/AddText.png</file>
+        <file>res/Circle.png</file>
+        <file>res/AddImage.png</file>
+        <file>res/BackgroundColor.png</file>
+        <file>res/BrushColor.png</file>
+        <file>res/BrushSize.png</file>
+        <file>res/Delete.png</file>
+        <file>res/Line.png</file>
+        <file>res/Rectangle.png</file>
+        <file>res/Save.png</file>
+        <file>res/Triangle.png</file>
+        <file>res/Polygon.png</file>
+        <file>res/Eraser.png</file>
+    </qresource>
+    <qresource prefix="/music">
+        <file>Sound.wav</file>
     </qresource>
 </RCC>
