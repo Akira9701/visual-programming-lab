@@ -130,6 +130,11 @@ GraphicsEditorWindow::GraphicsEditorWindow(QWidget *parent)
     connect(timer, &QTimer::timeout, [mouse, view]() { mouse->move(view); });
     scene->addItem(mouse);
 
+    Antonov *antonov = new Antonov();
+    scene->addItem(antonov);
+    connect(timer, &QTimer::timeout, [antonov, view]() { antonov->move(view); });
+    antonov->setPos(10, 10);
+
 }
 
 GraphicsEditorWindow::~GraphicsEditorWindow() {
