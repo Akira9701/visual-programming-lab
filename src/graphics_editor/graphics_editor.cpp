@@ -25,142 +25,101 @@
 #include "compositeobject.h"
 #include <polygon.h>
 #include <QMessageBox>
-
+#include <QMenu>
+#include <flower.h>
+#include <mouse.h>
+#include <antonov.h>
+#include <belousov.h>
 
 GraphicsEditorWindow::GraphicsEditorWindow(QWidget *parent)
     : QMainWindow(parent), scene(new QGraphicsScene(this)),
       currentBrushSize(10), isEraserMode(false), currentBrushStyle(Qt::SolidPattern) {
 
-    // Создаем вид и добавляем сцену
     DrawingView *view = new DrawingView(scene, this);
-    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setStyleSheet("QGraphicsView { border: 3px solid black; background-color: white; }");
-
+    scene->setBackgroundBrush(Qt::white);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setCentralWidget(view);
-    setWindowTitle("Graphics Editor");
 
-    // Устанавливаем минимальный и максимальный размер окна
-    setMinimumSize(900, 900);  // Минимальный размер окна
-    setMaximumSize(1600, 1600); // Максимальный размер окна
-    setAcceptDrops(true);     // Разрешаем перетаскивание
+    setWindowTitle("Graphics Window");
+    setFixedSize(900, 900);
+    setAcceptDrops(true);
 
-    // Создаем панель инструментов
-    QToolBar *toolbar = addToolBar("Shapes");
+    QToolBar *toolbar = new QToolBar("Toolbar", this);
+    addToolBar(Qt::LeftToolBarArea, toolbar);
+    toolbar->setOrientation(Qt::Vertical);
+    toolbar->setStyleSheet("QToolBar { background-color: #333; }"
+                           "QToolButton { color: white; font-size: 14px; }");
 
     QAction *addTextAction = new QAction(QIcon(":/res/res/AddText.png"),"Add Text", this);
     toolbar->addAction(addTextAction);
     connect(addTextAction, &QAction::triggered, this, &GraphicsEditorWindow::addText);
 
-    // Добавляем кнопку для круга
-    QAction *addCircleAction = new QAction(QIcon(":/res/res/Circle.png"),"Add Circle", this);
-    toolbar->addAction(addCircleAction);
-    connect(addCircleAction, &QAction::triggered, this, &GraphicsEditorWindow::addCircle);
-
-    // Кнопка для удаления выбранного элемента
-    QAction *deleteAction = new QAction(QIcon(":/res/res/Delete.png"),"Delete", this);
-    toolbar->addAction(deleteAction);
-    connect(deleteAction, &QAction::triggered, this, &GraphicsEditorWindow::deleteSelectedItem);
-
-
-    // Добавляем кнопку для импорта изображения
-    QAction *importAction = new QAction(QIcon(":/res/res/AddImage.png"),"Import Image", this);
-    toolbar->addAction(importAction);
-    connect(importAction, &QAction::triggered, this, &GraphicsEditorWindow::importImage);
-
-    // Добавляем кнопку для сохранения изображения
-    QAction *saveAction = new QAction(QIcon(":/res/res/Save.png"),"Save", this);
-    toolbar->addAction(saveAction);
-    connect(saveAction, &QAction::triggered, this, &GraphicsEditorWindow::saveImage);
-
-    // Кнопка для изменения фона
-    QAction *backgroundAction = new QAction(QIcon(":/res/res/BackgroundColor.png"),"Background Color", this);
-    toolbar->addAction(backgroundAction);
-    connect(backgroundAction, &QAction::triggered, this, &GraphicsEditorWindow::changeBackgroundColor);
-
-    // Кнопка для изменения размера кисти
-    QAction *brushSizeAction = new QAction(QIcon(":/res/res/BrushSize.png"),"Brush Size", this);
-    toolbar->addAction(brushSizeAction);
-    connect(brushSizeAction, &QAction::triggered, this, &GraphicsEditorWindow::setBrushSize);
-
-    // Кнопка для изменения цвета кисти
-    QAction *brushColorAction = new QAction(QIcon(":/res/res/BrushColor.png"),"Brush Color", this);
-    toolbar->addAction(brushColorAction);
-    connect(brushColorAction, &QAction::triggered, this, &GraphicsEditorWindow::setBrushColor);
-
-    // Добавляем кнопку для линии
     QAction *addLineAction = new QAction(QIcon(":/res/res/Line.png"),"Add Line", this);
     toolbar->addAction(addLineAction);
     connect(addLineAction, &QAction::triggered, this, &GraphicsEditorWindow::addLine);
 
-    // Добавляем кнопку для прямоугольника
+    QAction *addCircleAction = new QAction(QIcon(":/res/res/Circle.png"),"Add Circle", this);
+    toolbar->addAction(addCircleAction);
+    connect(addCircleAction, &QAction::triggered, this, &GraphicsEditorWindow::addCircle);
+
     QAction *addRectangleAction = new QAction(QIcon(":/res/res/Rectangle.png"),"Add Rectangle", this);
     toolbar->addAction(addRectangleAction);
     connect(addRectangleAction, &QAction::triggered, this, &GraphicsEditorWindow::addRectangle);
 
-    // Добавляем кнопку для треугольника
     QAction *addTriangleAction = new QAction(QIcon(":/res/res/Triangle.png"),"Add Triangle", this);
     toolbar->addAction(addTriangleAction);
     connect(addTriangleAction, &QAction::triggered, this, &GraphicsEditorWindow::addTriangle);
 
-    // Добавляем кнопку для треугольника
     QAction *addPolygonAction = new QAction(QIcon(":/res/res/Polygon.png"),"Add Polygon", this);
     toolbar->addAction(addPolygonAction);
     connect(addPolygonAction, &QAction::triggered, this, &GraphicsEditorWindow::addPolygon);
 
-     QComboBox *brushStyleComboBox = new QComboBox(this);
-     brushStyleComboBox->addItem("Solid", QVariant::fromValue(Qt::SolidPattern));
-     brushStyleComboBox->addItem("Dense 1", QVariant::fromValue(Qt::Dense1Pattern));
-     brushStyleComboBox->addItem("Dense 2", QVariant::fromValue(Qt::Dense2Pattern));
-     brushStyleComboBox->addItem("Dense 3", QVariant::fromValue(Qt::Dense3Pattern));
-     brushStyleComboBox->addItem("Dense 4", QVariant::fromValue(Qt::Dense4Pattern));
-     brushStyleComboBox->addItem("Dense 5", QVariant::fromValue(Qt::Dense5Pattern));
-     brushStyleComboBox->addItem("Dense 6", QVariant::fromValue(Qt::Dense6Pattern));
-     brushStyleComboBox->addItem("Dense 7", QVariant::fromValue(Qt::Dense7Pattern));
-     brushStyleComboBox->addItem("Cross", QVariant::fromValue(Qt::CrossPattern));
-     brushStyleComboBox->addItem("Horizontal", QVariant::fromValue(Qt::HorPattern));
-     brushStyleComboBox->addItem("Vertical", QVariant::fromValue(Qt::VerPattern));
-     toolbar->addWidget(brushStyleComboBox);
-     connect(brushStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &GraphicsEditorWindow::setBrushStyle);
+    QAction *deleteAction = new QAction(QIcon(":/res/res/Delete.png"),"Delete", this);
+    toolbar->addAction(deleteAction);
+    connect(deleteAction, &QAction::triggered, this, &GraphicsEditorWindow::deleteSelectedItem);
 
-     // Кнопка для ластика
-     QAction *eraserAction = new QAction(QIcon(":/toolbar/eraser.png"),"Eraser", this);
-     toolbar->addAction(eraserAction);
-     connect(eraserAction, &QAction::triggered, this, &GraphicsEditorWindow::setEraser);
+    QAction *backgroundAction = new QAction(QIcon(":/res/res/BackgroundColor.png"),"Background Color", this);
+    toolbar->addAction(backgroundAction);
+    connect(backgroundAction, &QAction::triggered, this, &GraphicsEditorWindow::changeBackgroundColor);
 
-     QTimer *timer = new QTimer(this);
-     timer->start(16); // Set the timer interval (e.g., 16 ms for ~60 FPS)
+    QAction *eraserAction = new QAction(QIcon(":/res/res/Eraser.png"),"Eraser", this);
+    toolbar->addAction(eraserAction);
+    connect(eraserAction, &QAction::triggered, this, &GraphicsEditorWindow::setEraser);
 
-     /*Dog *dog = new Dog();
-     dog->setPos(200, 400);
-     connect(timer, &QTimer::timeout, [dog, view]() { dog->move(view); }); // Передаем представление в функцию перемещения
-     scene->addItem(dog);
+    QAction *importAction = new QAction(QIcon(":/res/res/AddImage.png"),"Import Image", this);
+    toolbar->addAction(importAction);
+    connect(importAction, &QAction::triggered, this, &GraphicsEditorWindow::importImage);
 
-     Bird *bird = new Bird();
-     bird->setPos(300, 700);
-     connect(timer, &QTimer::timeout, [bird, view]() { bird->move(view); }); // Передаем представление в функцию перемещения
-     scene->addItem(bird);
+    QAction *saveAction = new QAction(QIcon(":/res/res/Save.png"),"Save", this);
+    toolbar->addAction(saveAction);
+    connect(saveAction, &QAction::triggered, this, &GraphicsEditorWindow::saveImage);
 
+    QAction *brushSizeAction = new QAction(QIcon(":/res/res/BrushSize.png"),"Brush Size", this);
+    toolbar->addAction(brushSizeAction);
+    connect(brushSizeAction, &QAction::triggered, this, &GraphicsEditorWindow::setBrushSize);
 
-     Flower *flower = new Flower();
-     flower->setPos(100, 200);
-     connect(timer, &QTimer::timeout, [flower, view]() { flower->move(view); }); // Передаем представление в функцию перемещения
-     scene->addItem(flower);
+    QComboBox *brushStyleComboBox = new QComboBox(this);
+    brushStyleComboBox->addItem("Solid", QVariant::fromValue(Qt::SolidPattern));
+    brushStyleComboBox->addItem("Dense 1", QVariant::fromValue(Qt::Dense1Pattern));
+    brushStyleComboBox->addItem("Dense 2", QVariant::fromValue(Qt::Dense2Pattern));
+    brushStyleComboBox->addItem("Dense 3", QVariant::fromValue(Qt::Dense3Pattern));
+    brushStyleComboBox->addItem("Cross", QVariant::fromValue(Qt::CrossPattern));
+    brushStyleComboBox->addItem("Horizontal", QVariant::fromValue(Qt::HorPattern));
+    brushStyleComboBox->addItem("Vertical", QVariant::fromValue(Qt::VerPattern));
 
-     ParkWord* parkWord = new ParkWord();
-     scene->addItem(parkWord);
-     connect(timer, &QTimer::timeout, [parkWord, view]() { parkWord->move(view); });
-     parkWord->setPos(50, 50);
+    QAction *brushColorAction = new QAction(QIcon(":/res/res/BrushColor.png"),"Brush Color", this);
+    toolbar->addAction(brushColorAction);
+    connect(brushColorAction, &QAction::triggered, this, &GraphicsEditorWindow::setBrushColor);
 
-     /*VarWord* varWord = new VarWord();
-     scene->addItem(varWord);
-     connect(timer, &QTimer::timeout, [varWord, view]() { varWord->move(view); });
-     varWord->setPos(50, 50);*/
+    toolbar->addWidget(brushStyleComboBox);
 
-     /*MartWord* martWord = new MartWord();
-     scene->addItem(martWord);
-     connect(timer, &QTimer::timeout, [martWord, view]() { martWord->move(view); });
-     martWord->setPos(50, 50);*/
+    connect(brushStyleComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &GraphicsEditorWindow::setBrushStyle);
+
+    QTimer *timer = new QTimer(this);
+    timer->start(16);
+
 }
 
 GraphicsEditorWindow::~GraphicsEditorWindow() {
@@ -225,7 +184,6 @@ void GraphicsEditorWindow::addLine() {
     scene->addItem(line);
 }
 
-
 //Круг
 void GraphicsEditorWindow::addPolygon() {
     bool ok;
@@ -277,7 +235,6 @@ void GraphicsEditorWindow::addRectangle() {
     scene->addItem(rect);
     rect->setPos(100, 200);
 }
-
 
 //Треугольник
 void GraphicsEditorWindow::addTriangle() {
@@ -331,52 +288,6 @@ void GraphicsEditorWindow::addTriangle() {
     triangle->setPos(100, 200);
 }
 
-
-// Слот для сохранения изображения
-void GraphicsEditorWindow::saveImage() {
-    QString filePath = QFileDialog::getSaveFileName(this, "Save Image", "", "PNG Files (*.png)");
-
-    if (!filePath.isEmpty()) {
-        // Устанавливаем размер изображения под размер сцены
-        QPixmap pixmap(scene->sceneRect().size().toSize());
-
-        // Создаём QPainter для рисования на QPixmap
-        QPainter painter(&pixmap);
-
-        // Отрисовываем сцену на QPixmap
-        scene->render(&painter);
-
-        // Сохраняем изображение в фа��л
-        pixmap.save(filePath, "PNG");
-    }
-}
-
-// Слот для импорта изображения
-
-void GraphicsEditorWindow::importImage() {
-    QString filePath = QFileDialog::getOpenFileName(this, "Import Image", "", "Images (*.png *.jpg *.jpeg *.bmp)");
-
-    if (!filePath.isEmpty()) {
-        QPixmap pixmap(filePath);
-
-        if (!pixmap.isNull()) {
-            QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
-            item->setPos(0, 0);
-            item->setFlag(QGraphicsItem::ItemIsMovable);
-            item->setFlag(QGraphicsItem::ItemIsSelectable);
-            scene->addItem(item);
-        }
-    }
-}
-
-void GraphicsEditorWindow::mousePressEvent(QMouseEvent *event) {
-    if (scene->itemAt(event->pos(), QTransform()) != nullptr) {
-        event->accept();
-    } else {
-        event->ignore();
-    }
-}
-
 void GraphicsEditorWindow::setBrushStyle() {
     QComboBox *brushStyleComboBox = qobject_cast<QComboBox*>(sender());
     if (brushStyleComboBox) {
@@ -404,81 +315,117 @@ void GraphicsEditorWindow::setBrushColor() {
     }
 }
 
+// Ластик
 void GraphicsEditorWindow::setEraser() {
     isEraserMode = true;
-    static_cast<DrawingView*>(centralWidget())->setBrushColor(scene->backgroundBrush().color());
-}
-
-void GraphicsEditorWindow::changeBackgroundColor() {
-    QColor color = QColorDialog::getColor(scene->backgroundBrush().color(), this, "Select Background Color");
-    if (color.isValid()) {
-        scene->setBackgroundBrush(color);
-        if (isEraserMode) {
-            static_cast<DrawingView*>(centralWidget())->setBrushColor(color);
+    DrawingView *drawingView = qobject_cast<DrawingView*>(centralWidget());
+    if (drawingView) {
+        QColor backgroundColor = scene->backgroundBrush().color();
+        if (backgroundColor.isValid()) {
+            drawingView->setBrushColor(backgroundColor);
+        } else {
+            drawingView->setBrushColor(Qt::white);
         }
     }
 }
 
-// Слот для добавлеия текста
+// Изменение заднего фона
+void GraphicsEditorWindow::changeBackgroundColor() {
+    QColor color = QColorDialog::getColor(scene->backgroundBrush().color(), this, "Выберите цвет заднего фона");
+
+    if (!color.isValid()) {
+        return;
+    }
+
+    if (scene->backgroundBrush().color() != color) {
+        scene->setBackgroundBrush(color);
+        setEraser();
+    }
+
+    if (isEraserMode) {
+        static_cast<DrawingView*>(centralWidget())->setBrushColor(color);
+    }
+}
+
+// Добавление текста
 void GraphicsEditorWindow::addText() {
-    // Запрашиваем текст
     bool ok;
     QString text = QInputDialog::getText(this, "Add Text", "Enter your text:", QLineEdit::Normal, "", &ok);
     if (!ok || text.isEmpty()) return;
 
-    // Запрашиваем шрифт
     bool fontOk;
     QFont font = QFontDialog::getFont(&fontOk, QFont("Arial", 12), this, "Select Font");
     if (!fontOk) return;
 
-    // Создаем элемент текста с поведением перемещения правой кнопкой мыши
     MovableTextItem *textItem = new MovableTextItem(text);
     textItem->setFont(font);
 
-    // Добавляем текст на сцену
     scene->addItem(textItem);
     textItem->setPos(100, 200);
 }
 
-
+//Удаление выбранного объекта
 void GraphicsEditorWindow::deleteSelectedItem() {
-    // Получаем выбранные элементы
     QList<QGraphicsItem*> selectedItems = scene->selectedItems();
     if (selectedItems.isEmpty()) {
-        qDebug() << "No items selected for deletion."; // Отладочное сообщение
         return;
     }
 
-    // Удаляем все выбранные элементы
     for (QGraphicsItem *item : selectedItems) {
-        scene->removeItem(item); // Удаляем элемент из сцены
-        delete item; // Удаляем объект из памяти
-        qDebug() << "Item deleted."; // Подтверждение удаления
+        scene->removeItem(item);
+        delete item;
     }
 }
 
+// Перетаскивание изображения
+// Слот для сохранения изображения
+void GraphicsEditorWindow::saveImage() {
+    QString filePath = QFileDialog::getSaveFileName(this, "Save Image", "", "PNG Files (*.png)");
 
-// Обработка события входа перетаскивания
+    if (!filePath.isEmpty()) {
+        QPixmap pixmap(scene->sceneRect().size().toSize());
+        QPainter painter(&pixmap);
+        scene->render(&painter);
+        pixmap.save(filePath, "PNG");
+    }
+}
+
+void GraphicsEditorWindow::importImage() {
+    QString filePath = QFileDialog::getOpenFileName(this, "Import Image", "", "Images (*.png *.jpg *.jpeg *.bmp)");
+
+    if (!filePath.isEmpty()) {
+        QPixmap pixmap(filePath);
+
+        if (!pixmap.isNull()) {
+            QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
+            item->setPos(0, 0);
+            item->setFlag(QGraphicsItem::ItemIsMovable);
+            item->setFlag(QGraphicsItem::ItemIsSelectable);
+            scene->addItem(item);
+        }
+    }
+}
+
+void GraphicsEditorWindow::mousePressEvent(QMouseEvent *event) {
+    if (scene->itemAt(event->pos(), QTransform()) != nullptr) {
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
 void GraphicsEditorWindow::dragEnterEvent(QDragEnterEvent *event) {
     if (event->mimeData()->hasImage()) {
         event->acceptProposedAction();
     }
 }
 
-// Обработка события завершения перетаскивания
 void GraphicsEditorWindow::dropEvent(QDropEvent *event) {
     if (event->mimeData()->hasImage()) {
         QPixmap pixmap = qvariant_cast<QPixmap>(event->mimeData()->imageData());
         QGraphicsPixmapItem *item = new QGraphicsPixmapItem(pixmap);
-        item->setPos(event->pos()); // Устанавливаем позицию на сцене
-        scene->addItem(item);        // Добавляем изображение на сцену
+        item->setPos(event->pos());
+        scene->addItem(item);
         event->acceptProposedAction();
     }
 }
-
-
-
-
-
-
-
