@@ -120,6 +120,16 @@ GraphicsEditorWindow::GraphicsEditorWindow(QWidget *parent)
     QTimer *timer = new QTimer(this);
     timer->start(16);
 
+    Flower *flower = new Flower();
+    flower->setPos(200,200);
+    connect(timer, &QTimer::timeout, [flower, view]() { flower->move(view); });
+    scene->addItem(flower);
+
+    Mouse *mouse = new Mouse();
+    mouse->setPos(400,400);
+    connect(timer, &QTimer::timeout, [mouse, view]() { mouse->move(view); });
+    scene->addItem(mouse);
+
 }
 
 GraphicsEditorWindow::~GraphicsEditorWindow() {
